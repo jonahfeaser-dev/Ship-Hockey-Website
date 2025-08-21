@@ -1,12 +1,484 @@
-<!DOCTYPE html>
-<html>
-  <head>  </head>
-  <body>
-    <button id = "GameDayButton"></button>
-   <script>
-    let AwayTeam = 'Cleveland State';
-    let HomeTeam = 'Shippensburg';
-    document.getElementById("GameDayButton").textContent = AwayTeam + " @ " + HomeTeam;
-   </script>
-  </body>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ship Hockey Schedule Cards — Templates</title>
+<style>
+  :root{
+    --ship-red:#EE373D;
+    --ship-blue:#001541;
+    --ink:#1e2330;
+    --muted:#6f7686;
+    --card:#ffffff;
+    --page:#f5f6f9;
+    --radius:22px;
+    --shadow:0 10px 28px rgba(0,0,0,.12);
+  }
+
+  html,body{margin:0;background:var(--page);font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial,sans-serif;color:var(--ink);}
+
+  /* subtle texture behind everything inside the embed */
+  body:before{
+    content:"";
+    position:fixed; inset:0;
+    background:
+      radial-gradient(transparent 0 8px, rgba(0,0,0,.02) 9px) 0 0/22px 22px,
+      linear-gradient(180deg, rgba(0,0,0,.02), rgba(255,255,255,.02));
+    pointer-events:none;
+  }
+
+  .wrap{max-width:1050px;margin:34px auto;padding:0 16px 60px;}
+  .page-title{margin:0 0 18px;text-align:center;font-weight:900;letter-spacing:.3px;
+              font-size:clamp(24px,3.2vw,38px);color:var(--ship-blue);}
+
+  /* ====== Fancy Card ====== */
+  .game-card{
+    position:relative;
+    border-radius:var(--radius);
+    padding:2px;                    /* room for gradient frame */
+    background:linear-gradient(135deg,var(--ship-blue),var(--ship-red));
+    box-shadow:var(--shadow);
+    margin:22px 0;
+    transition:transform .18s ease, box-shadow .18s ease, filter .18s ease;
+  }
+
+  .game-card:hover{ transform:translateY(-3px); box-shadow:0 18px 40px rgba(0,0,0,.18); filter:saturate(1.02); }
+
+  /* inner white panel */
+  .card-inner{
+    background:var(--card);
+    border-radius:calc(var(--radius) - 2px);
+    overflow:hidden;
+  }
+
+  /* top accent bar with a soft gradient */
+  .accent{
+    height:8px;
+    background:linear-gradient(90deg,var(--ship-blue),var(--ship-red));
+  }
+
+  /* diagonal ribbon */
+  .ribbon{
+    position:absolute; top:16px; left:-12px;
+    background:var(--ship-red);
+    color:#fff; font-weight:800; font-size:12px;
+    padding:8px 18px;
+    transform:skew(-18deg);
+    box-shadow:0 6px 14px rgba(0,0,0,.18);
+    letter-spacing:.8px;
+  }
+  .ribbon span{ display:inline-block; transform:skew(18deg); }
+  .ribbon.away{ background:var(--ship-blue); }
+  .ribbon.tournament{ background:#f9ba13; color:var(--ship-blue) } /* ECSD ribbon color */
+
+  /* layout (single, non-duplicate rule) */
+  .row{
+    display: grid;
+    grid-template-columns: 1fr minmax(560px, 72ch) 1fr; /* comfy center width */
+    align-items: center;
+    gap: 18px;
+    padding: 22px;
+  }
+
+  /* nudge logos inward a bit */
+  .row > .logo-left{  justify-self: end;  margin-right: -60px; }
+  .row > .logo-right{ justify-self: start; margin-left:  -50px; }
+
+  /* responsive logo sizing */
+  .logo{
+    width: clamp(100px, 18vw, 190px);
+    height: auto;
+    object-fit: contain;
+    display: block;
+    margin: auto;
+    filter: drop-shadow(0 3px 6px rgba(0,0,0,.08));
+  }
+
+  /* center content */
+  .matchup{text-align:center;}
+  .matchup h3{
+    margin:6px 0 10px;
+    font-size:clamp(18px,2.6vw,24px);
+    font-weight:900; line-height:1.2;
+  }
+  .ship{ color:var(--ship-red); }
+  .opp{ color:var(--ship-blue); }
+
+  .meta{
+    display:flex; justify-content:center; flex-wrap:wrap; gap:16px;
+    color:var(--muted); font-size:14px; margin-bottom:10px;
+  }
+  .meta span{ display:inline-flex; align-items:center; gap:8px; }
+
+  .rink a{
+    color:var(--ship-blue); text-decoration:none; border-bottom:1px solid rgba(0,21,65,.25);
+  }
+  .rink a:hover{ border-color:var(--ship-blue); }
+
+  /* footer bar in card (kept even if empty) */
+  .footer{
+    display:flex; gap:10px; justify-content:center; align-items:center;
+    padding:14px; background:#fafbfe; border-top:1px solid #eef1f6;
+  }
+
+  /* Hide native <template> contents */
+  template{ display:none; }
+
+  /* Make logos scale a bit more on all sizes */
+.logo{
+  width: clamp(90px, 22vw, 220px);
+  max-width: 100%;
+  height: auto;
+}
+
+/* Tame the inward nudges on medium screens */
+@media (max-width: 1024px){
+  .row > .logo-left  { margin-right: -20px; }
+  .row > .logo-right { margin-left:  -16px; }
+}
+
+/* Stack the card on phones and small tablets */
+@media (max-width: 780px){
+  .row{
+    grid-template-columns: 1fr;
+    gap: 14px;
+    padding: 16px;
+  }
+
+  /* Center everything */
+  .row > .logo-left,
+  .row > .logo-right{
+    justify-self: center;
+    margin: 0;                 /* remove the negative margins that were causing cutoffs */
+  }
+
+  /* Give logos predictable size on small screens */
+  .logo{ width: clamp(80px, 35vw, 150px); }
+
+  /* Keep the text comfy */
+  .matchup h3{ font-size: clamp(18px, 5vw, 22px); }
+  .meta{ gap: 10px; font-size: 13px; }
+}
+
+/* Extra small phones: tighten a hair more */
+@media (max-width: 420px){
+  .logo{ width: clamp(72px, 42vw, 132px); }
+  .row{ padding: 12px; gap: 12px; }
+}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <h1 class="page-title">2025–2026 Schedule</h1>
+
+    <!-- Cards will be injected here by JS later -->
+    <div id="cards"></div>
+
+    <!-- ===========================
+         TEMPLATES (do not render)
+         =========================== -->
+
+<!-- ============== HOME CARD TEMPLATE ============== -->
+<template id="card-home">
+  <article class="game-card" data-type="home">
+    <div class="ribbon"><span>HOME</span></div>
+    <div class="card-inner">
+      <div class="accent"></div>
+      <div class="row">
+        <!-- Left: Opponent logo -->
+        <img class="logo logo-left opp-logo" src="" alt="" loading="lazy">
+        <!-- Center: matchup + details -->
+        <div class="matchup">
+          <h3>
+            <span class="opp opp-name">Opponent Name</span>
+            @
+            <span class="ship">Shippensburg</span>
+          </h3>
+          <div class="meta">
+            <span class="time">🕓 4:00 PM</span>
+            <span class="date">📅 September 27, 2025</span>
+          </div>
+          <div class="rink">📍
+            <a class="rink-link" href="#" target="_blank" rel="noopener">
+              <span class="rink-name">Rink Name</span>
+            </a>
+          </div>
+        </div>
+        <!-- Right: Ship logo -->
+        <img class="logo logo-right ship-logo" src="" alt="Shippensburg Hockey logo" loading="lazy">
+      </div>
+      <div class="footer"><span class="footer-text"></span></div>
+    </div>
+  </article>
+</template>
+
+<!-- ============== AWAY CARD TEMPLATE ============== -->
+<template id="card-away">
+  <article class="game-card" data-type="away">
+    <div class="ribbon away"><span>AWAY</span></div>
+    <div class="card-inner">
+      <div class="accent"></div>
+      <div class="row">
+        <!-- Left: Ship logo -->
+        <img class="logo logo-left ship-logo" src="" alt="Shippensburg Hockey logo" loading="lazy">
+        <!-- Center: matchup + details -->
+        <div class="matchup">
+          <h3>
+            <span class="ship">Shippensburg</span>
+            @
+            <span class="opp opp-name">Opponent Name</span>
+          </h3>
+          <div class="meta">
+            <span class="time">🕖 7:00 PM</span>
+            <span class="date">📅 September 28, 2025</span>
+          </div>
+          <div class="rink">📍
+            <a class="rink-link" href="#" target="_blank" rel="noopener">
+              <span class="rink-name">Rink Name</span>
+            </a>
+          </div>
+        </div>
+        <!-- Right: Opponent logo -->
+        <img class="logo logo-right opp-logo" src="" alt="" loading="lazy">
+      </div>
+      <div class="footer"><span class="footer-text"></span></div>
+    </div>
+  </article>
+</template>
+
+<!-- ============== ECSD TOURNAMENT TEMPLATE ============== -->
+<template id="card-ecsd">
+  <article class="game-card" data-type="tournament">
+    <div class="ribbon tournament"><span>ECSD</span></div>
+    <div class="card-inner">
+      <div class="accent"></div>
+      <div class="row">
+        <!-- Left: Ship logo -->
+        <img class="logo logo-left ship-logo" src="" alt="Shippensburg Hockey logo" loading="lazy">
+        <!-- Center: matchup + details -->
+        <div class="matchup">
+          <h3>
+            <span class="ship">Shippensburg</span>
+            vs
+            <span class="opp opp-name">Opponent or TBA</span>
+          </h3>
+          <div class="meta">
+            <span class="time">🕘 TBD</span>
+            <span class="date">📅 November 22, 2025</span>
+          </div>
+          <div class="rink">📍
+            <a class="rink-link" href="#" target="_blank" rel="noopener">
+              <span class="rink-name">IceWorks Skating Complex</span>
+            </a>
+          </div>
+        </div>
+        <!-- Right: Opponent logo (hide in JS if TBA) -->
+        <img class="logo logo-right opp-logo" src="" alt="" loading="lazy">
+      </div>
+      <div class="footer"><span class="footer-text">East Coast Show Down</span></div>
+    </div>
+  </article>
+</template>
+
+<script type="text/csv" id="schedule-csv">
+Opponent,Opponent Logo,Date,Time,Rink,Rink URL,Special Event?,HomeAway,UnEdited Link
+Cleveland State,https://drive.google.com/thumbnail?id=1vdtc18g8u04ZYZzrLl5eYaC9iIbzd4ZQ,2025-09-27,4:00 PM,Hagerstown Ice & Sports Complex,"https://www.google.com/maps/place/Hagerstown+Ice+%26+Sports+Complex/@39.6460215,-77.707814,17z/data=!3m1!4b1!4m6!3m5!1s0x89c9ed2f329d9ded:0x7ba14c7a990d2a84!8m2!3d39.6460174!4d-77.7052337!16s%2Fg%2F1tgz1kkn?entry=ttu&g_ep=EgoyMDI1MDgxOS4wIKXMDSoASAFQAw%3D%3D",First Home Game,HOME,https://drive.google.com/file/d/1vdtc18g8u04ZYZzrLl5eYaC9iIbzd4ZQ/view?usp=sharing
+American University,https://drive.google.com/thumbnail?id=1dFXKemLQaiLPiviRRBb8Fzt-VPV4Kgj9,2025-09-28,7:00 PM,Cabin John Ice Rink,"https://www.google.com/maps/place/Cabin+John+Ice+Rink/@39.0306864,-77.1508744,17z/data=!3m2!4b1!5s0x89b7cc7d5efaedf9:0x92fd4c9685030912!4m6!3m5!1s0x89b7cc7d7feacafd:0x8669ec2ef9c22378!8m2!3d39.0306823!4d-77.1482941!16s%2Fg%2F1tfc2xww?entry=ttu&g_ep=EgoyMDI1MDgxOS4wIKXMDSoASAFQAw%3D%3D",,AWAY,https://drive.google.com/file/d/1dFXKemLQaiLPiviRRBb8Fzt-VPV4Kgj9/view?usp=sharing
+Millersville University,https://drive.google.com/thumbnail?id=18R9MJU6P_6XgoMys9-ISo5tLyjWuG3tD,2025-10-04,1:00 PM,Twin Ponds Arena,"https://www.google.com/maps/place/Twin+Ponds+Arena/@40.2738221,-76.8262393,17z/data=!3m1!4b1!4m6!3m5!1s0x89c8bf59ccb1ec6d:0xcd74f24beaba8d61!8m2!3d40.273818!4d-76.823659!16s%2Fg%2F1tcyyd7p?entry=ttu&g_ep=EgoyMDI1MDgxOS4wIKXMDSoASAFQAw%3D%3D",,HOME,https://drive.google.com/file/d/18R9MJU6P_6XgoMys9-ISo5tLyjWuG3tD/view?usp=sharing
+Susquehanna University,https://drive.google.com/thumbnail?id=1IccPE6kmUkw4RH9zIGWpzKr0wv0cXEqn,2025-10-05,3:45 PM,James R Eister Youth & Community Center,"https://www.google.com/maps/place/James+R.+Eister+Youth+%26+Community+Center/@40.8741327,-76.7835647,16z/data=!3m1!4b1!4m6!3m5!1s0x89cf6aff525f1cc7:0xa448f7c7c7cc9198!8m2!3d40.8741287!4d-76.7809844!16s%2Fg%2F1tjtk7lf?entry=ttu&g_ep=EgoyMDI1MDgxOS4wIKXMDSoASAFQAw%3D%3D",,AWAY,https://drive.google.com/file/d/1IccPE6kmUkw4RH9zIGWpzKr0wv0cXEqn/view?usp=sharing
+Penn State Berks,https://drive.google.com/thumbnail?id=1smNepYlQUN_McnQDHBgzD-mT-KaJI2LB,2025-10-11,5:30 PM,Hagerstown Ice & Sports Complex,"https://www.google.com/maps/place/Hagerstown+Ice+%26+Sports+Complex/@39.6460215,-77.707814,17z/data=!3m1!4b1!4m6!3m5!1s0x89c9ed2f329d9ded:0x7ba14c7a990d2a84!8m2!3d39.6460174!4d-77.7052337!16s%2Fg%2F1tgz1kkn?entry=ttu&g_ep=EgoyMDI1MDgxOS4wIKXMDSoASAFQAw%3D%3D",,HOME,https://drive.google.com/file/d/1smNepYlQUN_McnQDHBgzD-mT-KaJI2LB/view?usp=sharing
+Franklin & Marshall College,https://drive.google.com/thumbnail?id=1PPdmSYOHOqneBb8Yst9_fAjlCyOOsVaP,2025-10-25,4:15 PM,Regency Sportsrink,"https://www.google.com/maps/search/regency+ice+rink/@39.6460215,-77.707814,17z?entry=ttu&g_ep=EgoyMDI1MDgxOS4wIKXMDSoASAFQAw%3D%3D",,AWAY,https://drive.google.com/file/d/1PPdmSYOHOqneBb8Yst9_fAjlCyOOsVaP/view?usp=sharing
+Susquehanna University,https://drive.google.com/thumbnail?id=1IccPE6kmUkw4RH9zIGWpzKr0wv0cXEqn,2025-11-08,5:30 PM,Hagerstown Ice & Sports Complex,"https://www.google.com/maps/place/Hagerstown+Ice+%26+Sports+Complex/@39.6460215,-77.707814,17z/data=!3m1!4b1!4m6!3m5!1s0x89c9ed2f329d9ded:0x7ba14c7a990d2a84!8m2!3d39.6460174!4d-77.7052337!16s%2Fg%2F1tgz1kkn?entry=ttu&g_ep=EgoyMDI1MDgxOS4wIKXMDSoASAFQAw%3D%3D",,HOME,https://drive.google.com/file/d/1IccPE6kmUkw4RH9zIGWpzKr0wv0cXEqn/view?usp=sharing
+Kutztown University,https://drive.google.com/thumbnail?id=1tqCbBaR_Hl5xl3FRHr7EGVRxdT79cz-h,2025-11-15,5:30 PM,Hagerstown Ice & Sports Complex,"https://www.google.com/maps/place/Hagerstown+Ice+%26+Sports+Complex/@39.6460215,-77.707814,17z/data=!3m1!4b1!4m6!3m5!1s0x89c9ed2f329d9ded:0x7ba14c7a990d2a84!8m2!3d39.6460174!4d-77.7052337!16s%2Fg%2F1tgz1kkn?entry=ttu&g_ep=EgoyMDI1MDgxOS4wIKXMDSoASAFQAw%3D%3D",,HOME,https://drive.google.com/file/d/1tqCbBaR_Hl5xl3FRHr7EGVRxdT79cz-h/view?usp=sharing
+Penn State Altoona,https://drive.google.com/thumbnail?id=1fH6msZKa1LPitwmOqZhCOI4mSrzRxBxx,2025-11-21,,IceWorks Skating Complex,"https://www.google.com/maps/place/IceWorks+Skating+Complex/@39.8580974,-75.4267469,16z/data=!3m1!4b1!4m6!3m5!1s0x89c6e60e6acb258f:0x7f27a7ca75bec0aa!8m2!3d39.8580933!4d-75.4241666!16s%2Fm%2F05zpvjg?entry=ttu&g_ep=EgoyMDI1MDgxOS4wIKXMDSoASAFQAw%3D%3D",East Coast Show Down,TOURNAMENT,https://drive.google.com/file/d/1fH6msZKa1LPitwmOqZhCOI4mSrzRxBxx/view?usp=sharing
+Penn State Berks,https://drive.google.com/thumbnail?id=1smNepYlQUN_McnQDHBgzD-mT-KaJI2LB,2025-11-22,,IceWorks Skating Complex,"https://www.google.com/maps/place/IceWorks+Skating+Complex/@39.8580974,-75.4267469,16z/data=!3m1!4b1!4m6!3m5!1s0x89c6e60e6acb258f:0x7f27a7ca75bec0aa!8m2!3d39.8580933!4d-75.4241666!16s%2Fm%2F05zpvjg?entry=ttu&g_ep=EgoyMDI1MDgxOS4wIKXMDSoASAFQAw%3D%3D",East Coast Show Down,TOURNAMENT,https://drive.google.com/file/d/1smNepYlQUN_McnQDHBgzD-mT-KaJI2LB/view?usp=sharing
+Kutztown University,https://drive.google.com/thumbnail?id=1tqCbBaR_Hl5xl3FRHr7EGVRxdT79cz-h,2025-11-23,,IceWorks Skating Complex,"https://www.google.com/maps/place/IceWorks+Skating+Complex/@39.8580974,-75.4267469,16z/data=!3m1!4b1!4m6!3m5!1s0x89c6e60e6acb258f:0x7f27a7ca75bec0aa!8m2!3d39.8580933!4d-75.4241666!16s%2Fm%2F05zpvjg?entry=ttu&g_ep=EgoyMDI1MDgxOS4wIKXMDSoASAFQAw%3D%3D",East Coast Show Down,TOURNAMENT,https://drive.google.com/file/d/1tqCbBaR_Hl5xl3FRHr7EGVRxdT79cz-h/view?usp=sharing
+Robert Morris University,https://drive.google.com/thumbnail?id=1GphyFkmosCefrQgyN_-gRHKT3EEm29j9,2025-12-05,8:15 PM,The RMU Island Sports Center,"https://www.google.com/maps/place/Robert+Morris+University+Island+Sports+Center/@40.5186012,-80.152982,17z/data=!3m1!4b1!4m6!3m5!1s0x88345e37e95a53dd:0x357bd830303f5dc9!8m2!3d40.5185972!4d-80.1504017!16zL20vMDl5cnYy?entry=ttu&g_ep=EgoyMDI1MDgxOS4wIKXMDSoASAFQAw%3D%3D",Last Game Before Break,AWAY,https://drive.google.com/file/d/1GphyFkmosCefrQgyN_-gRHKT3EEm29j9/view?usp=sharing
+California Univeristy of Pennsylvania,https://drive.google.com/thumbnail?id=1mQDsr8DIfbRiodL2IGiqtaMCUC1-XeSB,2026-01-24,8:45 PM,CFS Bank Event Center,"https://www.google.com/maps/place/cfsbank+Event+Center/@40.1993258,-79.828157,16z/data=!3m1!4b1!4m6!3m5!1s0x8834e1f7e07d0cef:0xf617dc0b64af016b!8m2!3d40.1993217!4d-79.8255767!16zL20vMGJrcm14?entry=ttu&g_ep=EgoyMDI1MDgxOS4wIKXMDSoASAFQAw%3D%3D",,AWAY,https://drive.google.com/file/d/1mQDsr8DIfbRiodL2IGiqtaMCUC1-XeSB/view?usp=sharing
+Gettysburg College,https://drive.google.com/thumbnail?id=1XPn7Vhj1JpzqQS9cL9ZCVVGFDaTY4P-g,2026-01-30,7:10 PM,York Ice Arena,"https://www.google.com/maps/place/York+Ice+Arena/@39.9543122,-76.7127554,17z/data=!3m1!4b1!4m6!3m5!1s0x89c88eca4a9a27bd:0x787d652f9e3822bd!8m2!3d39.9543081!4d-76.7101751!16s%2Fm%2F02rclrd?entry=ttu&g_ep=EgoyMDI1MDgxOS4wIKXMDSoASAFQAw%3D%3D",,AWAY,https://drive.google.com/file/d/1XPn7Vhj1JpzqQS9cL9ZCVVGFDaTY4P-g/view?usp=sharing
+Franklin & Marshall College,https://drive.google.com/thumbnail?id=1PPdmSYOHOqneBb8Yst9_fAjlCyOOsVaP,2026-02-01,10:00 AM,Twin Ponds Arena,"https://www.google.com/maps/place/Twin+Ponds+Arena/@40.2738221,-76.8262393,17z/data=!3m1!4b1!4m6!3m5!1s0x89c8bf59ccb1ec6d:0xcd74f24beaba8d61!8m2!3d40.273818!4d-76.823659!16s%2Fg%2F1tcyyd7p?entry=ttu&g_ep=EgoyMDI1MDgxOS4wIKXMDSoASAFQAw%3D%3D",,HOME,https://drive.google.com/file/d/1PPdmSYOHOqneBb8Yst9_fAjlCyOOsVaP/view?usp=sharing
+Penn State Altoona,https://drive.google.com/thumbnail?id=1fH6msZKa1LPitwmOqZhCOI4mSrzRxBxx,2026-02-07,,Galactic Ice,"https://www.google.com/maps/place/Galactic+Ice/@40.4717791,-78.3967987,16z/data=!3m1!4b1!4m6!3m5!1s0x89cb915cfc282943:0xc875119e74208a46!8m2!3d40.471775!4d-78.3942184!16s%2Fg%2F1tftm5ct?entry=ttu&g_ep=EgoyMDI1MDgxOS4wIKXMDSoASAFQAw%3D%3D",,AWAY,https://drive.google.com/file/d/1fH6msZKa1LPitwmOqZhCOI4mSrzRxBxx/view?usp=sharing
+Penn State Berks,https://drive.google.com/thumbnail?id=1smNepYlQUN_McnQDHBgzD-mT-KaJI2LB,2026-02-13,8:00 PM,Power Play Rinks,"https://www.google.com/maps/place/Power+Play+Rinks/@40.0701437,-75.6750185,17z/data=!3m1!4b1!4m6!3m5!1s0x89c68ad17ee9e81f:0x74fcf496e4e5a4b3!8m2!3d40.0701396!4d-75.6724382!16s%2Fg%2F1v16r7pb?entry=ttu&g_ep=EgoyMDI1MDgxOS4wIKXMDSoASAFQAw%3D%3D",,AWAY,https://drive.google.com/file/d/1smNepYlQUN_McnQDHBgzD-mT-KaJI2LB/view?usp=sharing
+American University,https://drive.google.com/thumbnail?id=1dFXKemLQaiLPiviRRBb8Fzt-VPV4Kgj9,2026-02-14,4:00 PM,Hagerstown Ice & Sports Complex,"https://www.google.com/maps/place/Hagerstown+Ice+%26+Sports+Complex/@39.6460215,-77.707814,17z/data=!3m1!4b1!4m6!3m5!1s0x89c9ed2f329d9ded:0x7ba14c7a990d2a84!8m2!3d39.6460174!4d-77.7052337!16s%2Fg%2F1tgz1kkn?entry=ttu&g_ep=EgoyMDI1MDgxOS4wIKXMDSoASAFQAw%3D%3D",Last Home Game,HOME,https://drive.google.com/file/d/1dFXKemLQaiLPiviRRBb8Fzt-VPV4Kgj9/view?usp=sharing
+</script>
+<script>
+(() => {
+  // ====== CONFIG ======
+  const SHIP_LOGO_URL = "https://drive.google.com/thumbnail?id=1fnqpx97__9QgqRdS0FBmF4YKkLd1UH4K&sz=w600";
+
+  // ====== CSV -> rows (robust for quotes/commas) ======
+  function parseCSV(text) {
+    const rows = [];
+    let i = 0, field = '', row = [], inQuotes = false;
+    while (i < text.length) {
+      const c = text[i];
+      if (inQuotes) {
+        if (c === '"') {
+          if (text[i+1] === '"') { field += '"'; i++; }  // escaped quote
+          else { inQuotes = false; }
+        } else {
+          field += c;
+        }
+      } else {
+        if (c === '"') inQuotes = true;
+        else if (c === ',') { row.push(field); field = ''; }
+        else if (c === '\n' || c === '\r') {
+          if (field.length || row.length) { row.push(field); rows.push(row); row = []; field = ''; }
+          // absorb \r\n combos
+          if (c === '\r' && text[i+1] === '\n') i++;
+        } else field += c;
+      }
+      i++;
+    }
+    if (field.length || row.length) { row.push(field); rows.push(row); }
+    // Trim BOM / whitespace in header
+    if (rows.length && rows[0].length) rows[0][0] = rows[0][0].replace(/^\uFEFF/, '').trim();
+    return rows;
+  }
+
+  function csvToObjects(csv) {
+    const rows = parseCSV(csv).filter(r => r.some(cell => cell.trim() !== ''));
+    if (!rows.length) return [];
+    const header = rows[0].map(h => h.trim());
+    return rows.slice(1).map(r => {
+      const obj = {};
+      header.forEach((h, idx) => obj[h] = (r[idx] ?? '').trim());
+      return obj;
+    });
+  }
+
+  // ====== Formatting helpers ======
+  const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+  function prettyDate(iso) {
+    // Expecting YYYY-MM-DD
+    const [y,m,d] = iso.split('-').map(Number);
+    if (!y || !m || !d) return iso; // fallback
+    return `${MONTHS[m-1]} ${d}, ${y}`;
+  }
+
+  // Blank times should sort last within the same date
+  function sortKey(game) {
+    const t = game.Time;
+    // normalize e.g. "7:00 PM" -> 19:00; if blank -> "99:99"
+    if (!t) return game.Date + "T99:99";
+    const m = t.match(/^(\d{1,2}):(\d{2})\s*([AP]M)$/i);
+    if (!m) return game.Date + "T99:99";
+    let [_, hh, mm, ap] = m;
+    let H = parseInt(hh, 10) % 12;
+    if (/P/i.test(ap)) H += 12;
+    if (H === 24) H = 12;
+    return `${game.Date}T${String(H).padStart(2,'0')}:${mm}`;
+  }
+
+  // ====== Template cloning ======
+  function $(sel, root=document){ return root.querySelector(sel); }
+
+  function fillCommon(card, g, isTournament) {
+    // Date
+    const dateEl = $('.date', card);
+    if (dateEl) dateEl.textContent = `📅 ${prettyDate(g.Date)}`;
+
+    // Time (hide if blank)
+    const timeEl = $('.time', card);
+    if (timeEl) {
+      if (g.Time) timeEl.textContent = `🕓 ${g.Time}`;
+      else timeEl.style.display = 'none';
+    }
+
+    // Rink + link
+    const rinkName = $('.rink-name', card);
+    const rinkLink = $('.rink-link', card);
+    if (rinkName) rinkName.textContent = g['Rink'] || '';
+    if (rinkLink) {
+      if (g['Rink URL']) { rinkLink.href = g['Rink URL']; rinkLink.removeAttribute('aria-disabled'); }
+      else { rinkLink.href = '#'; rinkLink.setAttribute('aria-disabled', 'true'); }
+    }
+
+    // Opponent name (TBA allowed)
+    const oppName = $('.opp-name', card);
+    if (oppName) oppName.textContent = g['Opponent'] || 'TBA';
+
+    // Logos
+    const shipLogo = $('.ship-logo', card);
+    if (shipLogo) shipLogo.src = SHIP_LOGO_URL;
+
+    const oppLogo = $('.opp-logo', card);
+    const oppLogoUrl = g['Opponent Logo'];
+    if (oppLogo) {
+      if (oppLogoUrl && oppLogoUrl.startsWith('http') && (g['Opponent'] || '').toUpperCase() !== 'TBA') {
+        oppLogo.src = oppLogoUrl;
+        oppLogo.style.visibility = 'visible';
+      } else {
+        // hide if no opponent logo (e.g., TBA in tournament)
+        oppLogo.style.visibility = 'hidden';
+        oppLogo.style.width = '0';
+        oppLogo.style.margin = '0';
+      }
+    }
+
+    // Footer: show Special Event if present; for ECSD you already have a fixed footer in the template
+    const footerText = $('.footer-text', card);
+    if (footerText && !isTournament) {
+      footerText.textContent = g['Special Event?'] || '';
+    }
+  }
+
+  function buildCard(g) {
+    const type = (g['HomeAway'] || '').toUpperCase();
+    let tplId = null;
+    if (type === 'HOME') tplId = 'card-home';
+    else if (type === 'AWAY') tplId = 'card-away';
+    else if (type === 'TOURNAMENT') tplId = 'card-ecsd';
+
+    if (!tplId) return null;
+
+    const tpl = document.getElementById(tplId);
+    if (!tpl) return null;
+    const card = tpl.content.firstElementChild.cloneNode(true);
+
+    // Fill content differences
+    if (type === 'HOME') {
+      // Matchup already "Opponent @ Shippensburg" in template
+      fillCommon(card, g, false);
+    } else if (type === 'AWAY') {
+      // Matchup already "Shippensburg @ Opponent" in template
+      fillCommon(card, g, false);
+    } else {
+      // TOURNAMENT (ECSD): Ribbon is "ECSD"; footer says "East Coast Show Down" in template
+      // If opponent is blank/TBA, template still reads "Shippensburg vs Opponent or TBA"
+      fillCommon(card, g, true);
+      // If you ever want the ribbon dynamic from a column, set it like:
+      // const ribbon = card.querySelector('.ribbon.tournament span'); if (ribbon && g['Tournament Name']) ribbon.textContent = g['Tournament Name'];
+    }
+
+    return card;
+  }
+
+  // ====== Main ======
+  const csvEl = document.getElementById('schedule-csv');
+  if (!csvEl) return;
+
+  const data = csvToObjects(csvEl.textContent);
+  // Basic validation: ensure required headers exist
+  const needed = ['Opponent','Opponent Logo','Date','Time','Rink','Rink URL','Special Event?','HomeAway'];
+  const hasAll = needed.every(h => Object.prototype.hasOwnProperty.call(data[0] || {}, h));
+  if (!hasAll) {
+    console.warn('CSV missing required headers. Found:', Object.keys(data[0] || {}));
+  }
+
+  // Sort by Date then Time (blank last for the day)
+  data.sort((a,b) => sortKey(a).localeCompare(sortKey(b)));
+
+  // Render
+  const mount = document.getElementById('cards') || document.body;
+  const frag = document.createDocumentFragment();
+  for (const g of data) {
+    const card = buildCard(g);
+    if (card) frag.appendChild(card);
+  }
+  mount.appendChild(frag);
+})();
+</script>
+</body>
 </html>

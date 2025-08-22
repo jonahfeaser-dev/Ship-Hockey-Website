@@ -16,17 +16,23 @@
     --shadow:0 10px 28px rgba(0,0,0,.12);
   }
 
-  html,body{margin:0;background:var(--page);font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial,sans-serif;color:var(--ink);}
+html, body {
+  margin: 0;
+  font-family: system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial,sans-serif;
+  color: var(--ink);
 
-  /* subtle texture behind everything inside the embed */
-  body:before{
-    content:"";
-    position:fixed; inset:0;
-    background:
-      radial-gradient(transparent 0 8px, rgba(0,0,0,.02) 9px) 0 0/22px 22px,
-      linear-gradient(180deg, rgba(0,0,0,.02), rgba(255,255,255,.02));
-    pointer-events:none;
-  }
+  /* light cool base so it never feels gray */
+  background-color: #eef5ff;
+
+  /* diagonal Ship blue into a very faint red, with a soft center glow */
+  background-image:
+    radial-gradient(1200px 900px at 50% 10%, rgba(255,255,255,0.6), transparent 60%),
+    linear-gradient(135deg, rgba(0,21,65,0.14) 0%, rgba(238,55,61,0.08) 100%);
+  background-repeat: no-repeat, no-repeat;
+}
+
+/* Keep your content above the bg */
+.wrap { position: relative; z-index: 1; }
 
   .wrap{max-width:1050px;margin:34px auto;padding:0 16px 60px;}
   .page-title{margin:0 0 18px;text-align:center;font-weight:900;letter-spacing:.3px;
@@ -38,6 +44,16 @@
     border-radius:var(--radius);
     padding:2px;                    /* room for gradient frame */
     background:linear-gradient(135deg,var(--ship-blue),var(--ship-red));
+    box-shadow:var(--shadow);
+    margin:22px 0;
+    transition:transform .18s ease, box-shadow .18s ease, filter .18s ease;
+  }
+
+  .game-card.tournament{
+    position:relative;
+    border-radius:var(--radius);
+    padding:2px;                    /* room for gradient frame */
+    background:linear-gradient(135deg,#f9ba13,black);
     box-shadow:var(--shadow);
     margin:22px 0;
     transition:transform .18s ease, box-shadow .18s ease, filter .18s ease;
@@ -56,6 +72,11 @@
   .accent{
     height:8px;
     background:linear-gradient(90deg,var(--ship-blue),var(--ship-red));
+  }
+
+  .accent.tournament{
+    height: 8px;
+    background: linear-gradient(90deg,#f9ba13, var(--ship-blue));
   }
 
   /* diagonal ribbon */
@@ -166,11 +187,99 @@
   .logo{ width: clamp(72px, 42vw, 132px); }
   .row{ padding: 12px; gap: 12px; }
 }
+
+/* ===== Season Record card ===== */
+.season-record{
+  /* gradient frame like game-card */
+  position: relative;
+  padding: 2px;
+  background: linear-gradient(135deg, var(--ship-blue), var(--ship-red));
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+
+  /* size and placement */
+  width: clamp(320px, 50vw, 540px);   /* about half the game card width */
+  margin: 16px auto 24px;             /* centered */
+
+  /* optional: keep it visible near the top while scrolling */
+  /* position: sticky; top: 10px; z-index: 5; */
+}
+
+/* inner white panel */
+.record-inner-card{
+  background: var(--card);
+  border-radius: calc(var(--radius) - 2px);
+  overflow: hidden;
+}
+
+/* thin gradient bar across the top */
+.season-record .accent{
+  height: 8px;
+  background: linear-gradient(90deg, var(--ship-blue), var(--ship-red));
+}
+
+/* use a simple centered row for this card (not the 3-column grid) */
+.season-record .row{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 18px;
+  gap: 10px;
+}
+
+/* record text */
+.season-record .matchup h3{
+  margin: 6px 0 4px;
+  font-size: clamp(18px, 2.6vw, 22px);
+  font-weight: 900;
+  letter-spacing: .4px;
+}
+
+/* color and spacing for the line you put inside */
+.season-record .opp-name{
+  color: var(--ship-blue);
+  word-spacing: .25em;
+}
+
+/* small screens */
+@media (max-width: 780px){
+  .season-record{ width: min(92vw, 540px); }
+  .season-record .row{ padding: 12px 14px; }
+}
+
+.season-record .record-grid{
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  gap: 10px 18px;
+  justify-content: center;
+  font-weight: 800;
+  color: var(--ink);
+}
+
+
 </style>
 </head>
 <body>
   <div class="wrap">
     <h1 class="page-title">2025–2026 Schedule</h1>
+<article class="season-record" data-type="record" aria-label="Season record">
+  <div class="record-inner-card">
+    <div class="accent"></div>
+    <div class="row">
+  <div class="matchup">
+    <h3 class="opp-name">Season Record</h3>
+    <div class="record-grid">
+      <div><strong>GP</strong> 0</div>
+      <div><strong>W</strong> 0</div>
+      <div><strong>L</strong> 0</div>
+      <div><strong>T</strong> 0</div>
+    </div>
+  </div>
+</div>
+  </div>
+</article>
+
+<div id="cards"></div>
 
     <!-- Cards will be injected here by JS later -->
     <div id="cards"></div>
@@ -249,10 +358,10 @@
 
 <!-- ============== ECSD TOURNAMENT TEMPLATE ============== -->
 <template id="card-ecsd">
-  <article class="game-card" data-type="tournament">
+  <article class="game-card tournament" data-type="tournament">
     <div class="ribbon tournament"><span>ECSD</span></div>
     <div class="card-inner">
-      <div class="accent"></div>
+      <div class="accent tournament"></div>
       <div class="row">
         <!-- Left: Ship logo -->
         <img class="logo logo-left ship-logo" src="" alt="Shippensburg Hockey logo" loading="lazy">
@@ -280,6 +389,7 @@
     </div>
   </article>
 </template>
+
 
 <script type="text/csv" id="schedule-csv">
 Opponent,Opponent Logo,Date,Time,Rink,Rink URL,Special Event?,HomeAway,UnEdited Link

@@ -256,6 +256,11 @@ html, body {
   color: var(--ink);
 }
 
+.footer .is-win { color:#0b8c4c; font-weight:800; letter-spacing:.3px; }
+.footer .is-loss{ color:var(--ship-red); font-weight:800; letter-spacing:.3px; }
+.footer .is-tie { color:var(--muted); font-weight:800; letter-spacing:.3px; }
+
+
 
 </style>
 </head>
@@ -392,9 +397,9 @@ html, body {
 
 
 <script type="text/csv" id="schedule-csv">
-Opponent,Opponent Logo,Date,Time,Rink,Rink URL,Special Event?,HomeAway,UnEdited Link
-Cleveland State,https://drive.google.com/thumbnail?id=1vdtc18g8u04ZYZzrLl5eYaC9iIbzd4ZQ,2025-09-27,4:00 PM,Hagerstown Ice & Sports Complex,"https://www.google.com/maps/place/Hagerstown+Ice+%26+Sports+Complex/@39.6460215,-77.707814,17z/data=!3m1!4b1!4m6!3m5!1s0x89c9ed2f329d9ded:0x7ba14c7a990d2a84!8m2!3d39.6460174!4d-77.7052337!16s%2Fg%2F1tgz1kkn?entry=ttu&g_ep=EgoyMDI1MDgxOS4wIKXMDSoASAFQAw%3D%3D",First Home Game,HOME,https://drive.google.com/file/d/1vdtc18g8u04ZYZzrLl5eYaC9iIbzd4ZQ/view?usp=sharing
-American University,https://drive.google.com/thumbnail?id=1dFXKemLQaiLPiviRRBb8Fzt-VPV4Kgj9,2025-09-28,7:00 PM,Cabin John Ice Rink,"https://www.google.com/maps/place/Cabin+John+Ice+Rink/@39.0306864,-77.1508744,17z/data=!3m2!4b1!5s0x89b7cc7d5efaedf9:0x92fd4c9685030912!4m6!3m5!1s0x89b7cc7d7feacafd:0x8669ec2ef9c22378!8m2!3d39.0306823!4d-77.1482941!16s%2Fg%2F1tfc2xww?entry=ttu&g_ep=EgoyMDI1MDgxOS4wIKXMDSoASAFQAw%3D%3D",,AWAY,https://drive.google.com/file/d/1dFXKemLQaiLPiviRRBb8Fzt-VPV4Kgj9/view?usp=sharing
+Opponent,Opponent Logo,Date,Time,Rink,Rink URL,Special Event?,HomeAway,UnEdited Link,Result,Score
+Cleveland State,https://drive.google.com/thumbnail?id=1vdtc18g8u04ZYZzrLl5eYaC9iIbzd4ZQ,2025-09-27,4:00 PM,Hagerstown Ice & Sports Complex,"https://www.google.com/maps/place/Hagerstown+Ice+%26+Sports+Complex/@39.6460215,-77.707814,17z/data=!3m1!4b1!4m6!3m5!1s0x89c9ed2f329d9ded:0x7ba14c7a990d2a84!8m2!3d39.6460174!4d-77.7052337!16s%2Fg%2F1tgz1kkn?entry=ttu&g_ep=EgoyMDI1MDgxOS4wIKXMDSoASAFQAw%3D%3D",First Home Game,HOME,https://drive.google.com/file/d/1vdtc18g8u04ZYZzrLl5eYaC9iIbzd4ZQ/view?usp=sharing,L,7-6
+American University,https://drive.google.com/thumbnail?id=1dFXKemLQaiLPiviRRBb8Fzt-VPV4Kgj9,2025-09-28,7:00 PM,Cabin John Ice Rink,"https://www.google.com/maps/place/Cabin+John+Ice+Rink/@39.0306864,-77.1508744,17z/data=!3m2!4b1!5s0x89b7cc7d5efaedf9:0x92fd4c9685030912!4m6!3m5!1s0x89b7cc7d7feacafd:0x8669ec2ef9c22378!8m2!3d39.0306823!4d-77.1482941!16s%2Fg%2F1tfc2xww?entry=ttu&g_ep=EgoyMDI1MDgxOS4wIKXMDSoASAFQAw%3D%3D",,AWAY,https://drive.google.com/file/d/1dFXKemLQaiLPiviRRBb8Fzt-VPV4Kgj9/view?usp=sharing,W,8-1
 Millersville University,https://drive.google.com/thumbnail?id=18R9MJU6P_6XgoMys9-ISo5tLyjWuG3tD,2025-10-04,1:00 PM,Twin Ponds Arena,"https://www.google.com/maps/place/Twin+Ponds+Arena/@40.2738221,-76.8262393,17z/data=!3m1!4b1!4m6!3m5!1s0x89c8bf59ccb1ec6d:0xcd74f24beaba8d61!8m2!3d40.273818!4d-76.823659!16s%2Fg%2F1tcyyd7p?entry=ttu&g_ep=EgoyMDI1MDgxOS4wIKXMDSoASAFQAw%3D%3D",,HOME,https://drive.google.com/file/d/18R9MJU6P_6XgoMys9-ISo5tLyjWuG3tD/view?usp=sharing
 Susquehanna University,https://drive.google.com/thumbnail?id=1IccPE6kmUkw4RH9zIGWpzKr0wv0cXEqn,2025-10-05,3:45 PM,James R Eister Youth & Community Center,"https://www.google.com/maps/place/James+R.+Eister+Youth+%26+Community+Center/@40.8741327,-76.7835647,16z/data=!3m1!4b1!4m6!3m5!1s0x89cf6aff525f1cc7:0xa448f7c7c7cc9198!8m2!3d40.8741287!4d-76.7809844!16s%2Fg%2F1tjtk7lf?entry=ttu&g_ep=EgoyMDI1MDgxOS4wIKXMDSoASAFQAw%3D%3D",,AWAY,https://drive.google.com/file/d/1IccPE6kmUkw4RH9zIGWpzKr0wv0cXEqn/view?usp=sharing
 Penn State Berks,https://drive.google.com/thumbnail?id=1smNepYlQUN_McnQDHBgzD-mT-KaJI2LB,2025-10-11,5:30 PM,Hagerstown Ice & Sports Complex,"https://www.google.com/maps/place/Hagerstown+Ice+%26+Sports+Complex/@39.6460215,-77.707814,17z/data=!3m1!4b1!4m6!3m5!1s0x89c9ed2f329d9ded:0x7ba14c7a990d2a84!8m2!3d39.6460174!4d-77.7052337!16s%2Fg%2F1tgz1kkn?entry=ttu&g_ep=EgoyMDI1MDgxOS4wIKXMDSoASAFQAw%3D%3D",,HOME,https://drive.google.com/file/d/1smNepYlQUN_McnQDHBgzD-mT-KaJI2LB/view?usp=sharing
@@ -484,55 +489,70 @@ American University,https://drive.google.com/thumbnail?id=1dFXKemLQaiLPiviRRBb8F
   // ====== Template cloning ======
   function $(sel, root=document){ return root.querySelector(sel); }
 
-  function fillCommon(card, g, isTournament) {
-    // Date
-    const dateEl = $('.date', card);
-    if (dateEl) dateEl.textContent = `📅 ${prettyDate(g.Date)}`;
 
-    // Time (hide if blank)
-    const timeEl = $('.time', card);
-    if (timeEl) {
-      if (g.Time) timeEl.textContent = `🕓 ${g.Time}`;
-      else timeEl.style.display = 'none';
+function fillCommon(card, g, isTournament) {
+  // Date
+  const dateEl = $('.date', card);
+  if (dateEl) dateEl.textContent = `📅 ${prettyDate(g.Date)}`;
+
+  // Time (hide if blank)
+  const timeEl = $('.time', card);
+  if (timeEl) {
+    if (g.Time) timeEl.textContent = `🕓 ${g.Time}`;
+    else timeEl.style.display = 'none';
+  }
+
+  // Rink + link
+  const rinkName = $('.rink-name', card);
+  const rinkLink = $('.rink-link', card);
+  if (rinkName) rinkName.textContent = g['Rink'] || '';
+  if (rinkLink) {
+    if (g['Rink URL']) { rinkLink.href = g['Rink URL']; rinkLink.removeAttribute('aria-disabled'); }
+    else { rinkLink.href = '#'; rinkLink.setAttribute('aria-disabled', 'true'); }
+  }
+
+  // Opponent name (TBA allowed)
+  const oppName = $('.opp-name', card);
+  if (oppName) oppName.textContent = g['Opponent'] || 'TBA';
+
+  // Logos
+  const shipLogo = $('.ship-logo', card);
+  if (shipLogo) shipLogo.src = SHIP_LOGO_URL;
+
+  const oppLogo = $('.opp-logo', card);
+  const oppLogoUrl = g['Opponent Logo'];
+  if (oppLogo) {
+    if (oppLogoUrl && oppLogoUrl.startsWith('http') && (g['Opponent'] || '').toUpperCase() !== 'TBA') {
+      oppLogo.src = oppLogoUrl;
+      oppLogo.style.visibility = 'visible';
+    } else {
+      // hide if no opponent logo (e.g., TBA in tournament)
+      oppLogo.style.visibility = 'hidden';
+      oppLogo.style.width = '0';
+      oppLogo.style.margin = '0';
     }
+  }
 
-    // Rink + link
-    const rinkName = $('.rink-name', card);
-    const rinkLink = $('.rink-link', card);
-    if (rinkName) rinkName.textContent = g['Rink'] || '';
-    if (rinkLink) {
-      if (g['Rink URL']) { rinkLink.href = g['Rink URL']; rinkLink.removeAttribute('aria-disabled'); }
-      else { rinkLink.href = '#'; rinkLink.setAttribute('aria-disabled', 'true'); }
-    }
+  // Footer — prefer Result/Score if present; otherwise Special Event
+  const footerText = $('.footer-text', card);
+  if (footerText && !isTournament) {
+    const res = (g['Result'] || '').trim().toUpperCase();   // "W" | "L" | "T"
+    const score = (g['Score']  || '').trim();               // e.g. "7-6"
+    footerText.classList.remove('is-win','is-loss','is-tie');
 
-    // Opponent name (TBA allowed)
-    const oppName = $('.opp-name', card);
-    if (oppName) oppName.textContent = g['Opponent'] || 'TBA';
-
-    // Logos
-    const shipLogo = $('.ship-logo', card);
-    if (shipLogo) shipLogo.src = SHIP_LOGO_URL;
-
-    const oppLogo = $('.opp-logo', card);
-    const oppLogoUrl = g['Opponent Logo'];
-    if (oppLogo) {
-      if (oppLogoUrl && oppLogoUrl.startsWith('http') && (g['Opponent'] || '').toUpperCase() !== 'TBA') {
-        oppLogo.src = oppLogoUrl;
-        oppLogo.style.visibility = 'visible';
-      } else {
-        // hide if no opponent logo (e.g., TBA in tournament)
-        oppLogo.style.visibility = 'hidden';
-        oppLogo.style.width = '0';
-        oppLogo.style.margin = '0';
-      }
-    }
-
-    // Footer: show Special Event if present; for ECSD you already have a fixed footer in the template
-    const footerText = $('.footer-text', card);
-    if (footerText && !isTournament) {
+    if (res && score) {
+      const label = res === 'W' ? 'W' : res === 'L' ? 'L' : 'T';
+      footerText.textContent = `${label} ${score}`;
+      if (res === 'W') footerText.classList.add('is-win');
+      else if (res === 'L') footerText.classList.add('is-loss');
+      else footerText.classList.add('is-tie');
+    } else {
       footerText.textContent = g['Special Event?'] || '';
     }
   }
+}
+
+
 
   function buildCard(g) {
     const type = (g['HomeAway'] || '').toUpperCase();
@@ -589,6 +609,27 @@ American University,https://drive.google.com/thumbnail?id=1dFXKemLQaiLPiviRRBb8F
   }
   mount.appendChild(frag);
 })();
+
+// compute record from CSV rows that have both Result and Score
+let GP = 0, W = 0, L = 0, T = 0;
+for (const g of data) {
+  if ((g['Result'] || '').trim() && (g['Score'] || '').trim()) {
+    GP++;
+    const r = g['Result'].trim().toUpperCase();
+    if (r === 'W') W++;
+    else if (r === 'L') L++;
+    else if (r === 'T') T++;
+  }
+}
+const recordGrid = document.querySelector('.record-grid');
+if (recordGrid) {
+  recordGrid.innerHTML = `
+    <div><strong>GP</strong> ${GP}</div>
+    <div><strong>W</strong> ${W}</div>
+    <div><strong>L</strong> ${L}</div>
+    <div><strong>T</strong> ${T}</div>
+  `;
+}
 </script>
 </body>
 </html>

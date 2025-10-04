@@ -119,7 +119,7 @@ html, body {
   /* center content */
   .matchup{text-align:center;}
   .matchup h3{
-    margin:6px 0 10px;
+    margin:6px 0 20px;
     font-size:clamp(18px,2.6vw,24px);
     font-weight:900; line-height:1.2;
   }
@@ -256,9 +256,14 @@ html, body {
   color: var(--ink);
 }
 
-.footer .is-win { color:#0b8c4c; font-weight:800; letter-spacing:.3px; }
-.footer .is-loss{ color:var(--ship-red); font-weight:800; letter-spacing:.3px; }
-.footer .is-tie { color:var(--muted); font-weight:800; letter-spacing:.3px; }
+.result {
+  margin: 6px 0;
+  font-size: 15px;
+  font-weight: 800;
+}
+.result.is-win  { color: #0b8c4c; }   /* green */
+.result.is-loss { color: var(--ship-red); }
+.result.is-tie  { color: var(--muted); }
 
 
 
@@ -318,6 +323,7 @@ html, body {
               <span class="rink-name">Rink Name</span>
             </a>
           </div>
+          <div class="result"></div>
         </div>
         <!-- Right: Ship logo -->
         <img class="logo logo-right ship-logo" src="" alt="Shippensburg Hockey logo" loading="lazy">
@@ -352,6 +358,7 @@ html, body {
               <span class="rink-name">Rink Name</span>
             </a>
           </div>
+          <div class="result"></div>
         </div>
         <!-- Right: Opponent logo -->
         <img class="logo logo-right opp-logo" src="" alt="" loading="lazy">
@@ -386,6 +393,7 @@ html, body {
               <span class="rink-name">IceWorks Skating Complex</span>
             </a>
           </div>
+          <div class="result"></div>
         </div>
         <!-- Right: Opponent logo (hide in JS if TBA) -->
         <img class="logo logo-right opp-logo" src="" alt="" loading="lazy">
@@ -400,8 +408,7 @@ html, body {
 Opponent,Opponent Logo,Date,Time,Rink,Rink URL,Special Event?,HomeAway,UnEdited Link,Result,Score
 Cleveland State,https://drive.google.com/thumbnail?id=1vdtc18g8u04ZYZzrLl5eYaC9iIbzd4ZQ,2025-09-27,4:00 PM,Hagerstown Ice & Sports Complex,"https://www.google.com/maps/place/Hagerstown+Ice+%26+Sports+Complex/@39.6460215,-77.707814,17z/data=!3m1!4b1!4m6!3m5!1s0x89c9ed2f329d9ded:0x7ba14c7a990d2a84!8m2!3d39.6460174!4d-77.7052337!16s%2Fg%2F1tgz1kkn?entry=ttu&g_ep=EgoyMDI1MDgxOS4wIKXMDSoASAFQAw%3D%3D",First Home Game,HOME,https://drive.google.com/file/d/1vdtc18g8u04ZYZzrLl5eYaC9iIbzd4ZQ/view?usp=sharing,L,7-6
 American University,https://drive.google.com/thumbnail?id=1dFXKemLQaiLPiviRRBb8Fzt-VPV4Kgj9,2025-09-28,7:00 PM,Cabin John Ice Rink,"https://www.google.com/maps/place/Cabin+John+Ice+Rink/@39.0306864,-77.1508744,17z/data=!3m2!4b1!5s0x89b7cc7d5efaedf9:0x92fd4c9685030912!4m6!3m5!1s0x89b7cc7d7feacafd:0x8669ec2ef9c22378!8m2!3d39.0306823!4d-77.1482941!16s%2Fg%2F1tfc2xww?entry=ttu&g_ep=EgoyMDI1MDgxOS4wIKXMDSoASAFQAw%3D%3D",,AWAY,https://drive.google.com/file/d/1dFXKemLQaiLPiviRRBb8Fzt-VPV4Kgj9/view?usp=sharing,W,8-1
-Millersville University,https://drive.google.com/thumbnail?id=18R9MJU6P_6XgoMys9-ISo5tLyjWuG3tD,2025-10-04,1:00 PM,Twin Ponds Arena,"https://www.google.com/maps/place/Twin+Ponds+Arena/@40.2738221,-76.8262393,17z/data=!3m1!4b1!4m6!3m5!1s0x89c8bf59ccb1ec6d:0xcd74f24beaba8d61!8m2!3d40.273818!4d-76.823659!16s%2Fg%2F1tcyyd7p?entry=ttu&g_ep=EgoyMDI1MDgxOS4wIKXMDSoASAFQAw%3D%3D",,HOME,https://drive.google.com/file/d/18R9MJU6P_6XgoMys9-ISo5tLyjWuG3tD/view?usp=sharing
-Susquehanna University,https://drive.google.com/thumbnail?id=1IccPE6kmUkw4RH9zIGWpzKr0wv0cXEqn,2025-10-05,3:45 PM,James R Eister Youth & Community Center,"https://www.google.com/maps/place/James+R.+Eister+Youth+%26+Community+Center/@40.8741327,-76.7835647,16z/data=!3m1!4b1!4m6!3m5!1s0x89cf6aff525f1cc7:0xa448f7c7c7cc9198!8m2!3d40.8741287!4d-76.7809844!16s%2Fg%2F1tjtk7lf?entry=ttu&g_ep=EgoyMDI1MDgxOS4wIKXMDSoASAFQAw%3D%3D",,AWAY,https://drive.google.com/file/d/1IccPE6kmUkw4RH9zIGWpzKr0wv0cXEqn/view?usp=sharing
+Millersville University,https://drive.google.com/thumbnail?id=18R9MJU6P_6XgoMys9-ISo5tLyjWuG3tD,2025-10-04,1:00 PM,Twin Ponds Arena,"https://www.google.com/maps/place/Twin+Ponds+Arena/@40.2738221,-76.8262393,17z/data=!3m1!4b1!4m6!3m5!1s0x89c8bf59ccb1ec6d:0xcd74f24beaba8d61!8m2!3d40.273818!4d-76.823659!16s%2Fg%2F1tcyyd7p?entry=ttu&g_ep=EgoyMDI1MDgxOS4wIKXMDSoASAFQAw%3D%3D",,HOME,https://drive.google.com/file/d/18R9MJU6P_6XgoMys9-ISo5tLyjWuG3tD/view?usp=sharing,W,9-0
 Penn State Berks,https://drive.google.com/thumbnail?id=1smNepYlQUN_McnQDHBgzD-mT-KaJI2LB,2025-10-11,5:30 PM,Hagerstown Ice & Sports Complex,"https://www.google.com/maps/place/Hagerstown+Ice+%26+Sports+Complex/@39.6460215,-77.707814,17z/data=!3m1!4b1!4m6!3m5!1s0x89c9ed2f329d9ded:0x7ba14c7a990d2a84!8m2!3d39.6460174!4d-77.7052337!16s%2Fg%2F1tgz1kkn?entry=ttu&g_ep=EgoyMDI1MDgxOS4wIKXMDSoASAFQAw%3D%3D",,HOME,https://drive.google.com/file/d/1smNepYlQUN_McnQDHBgzD-mT-KaJI2LB/view?usp=sharing
 Franklin & Marshall College,https://drive.google.com/thumbnail?id=1PPdmSYOHOqneBb8Yst9_fAjlCyOOsVaP,2025-10-25,4:15 PM,Regency Sportsrink,"https://www.google.com/maps/search/regency+ice+rink/@39.6460215,-77.707814,17z?entry=ttu&g_ep=EgoyMDI1MDgxOS4wIKXMDSoASAFQAw%3D%3D",,AWAY,https://drive.google.com/file/d/1PPdmSYOHOqneBb8Yst9_fAjlCyOOsVaP/view?usp=sharing
 Susquehanna University,https://drive.google.com/thumbnail?id=1IccPE6kmUkw4RH9zIGWpzKr0wv0cXEqn,2025-11-08,5:30 PM,Hagerstown Ice & Sports Complex,"https://www.google.com/maps/place/Hagerstown+Ice+%26+Sports+Complex/@39.6460215,-77.707814,17z/data=!3m1!4b1!4m6!3m5!1s0x89c9ed2f329d9ded:0x7ba14c7a990d2a84!8m2!3d39.6460174!4d-77.7052337!16s%2Fg%2F1tgz1kkn?entry=ttu&g_ep=EgoyMDI1MDgxOS4wIKXMDSoASAFQAw%3D%3D",,HOME,https://drive.google.com/file/d/1IccPE6kmUkw4RH9zIGWpzKr0wv0cXEqn/view?usp=sharing
@@ -417,7 +424,14 @@ Penn State Altoona,https://drive.google.com/thumbnail?id=1fH6msZKa1LPitwmOqZhCOI
 Penn State Berks,https://drive.google.com/thumbnail?id=1smNepYlQUN_McnQDHBgzD-mT-KaJI2LB,2026-02-13,8:00 PM,Power Play Rinks,"https://www.google.com/maps/place/Power+Play+Rinks/@40.0701437,-75.6750185,17z/data=!3m1!4b1!4m6!3m5!1s0x89c68ad17ee9e81f:0x74fcf496e4e5a4b3!8m2!3d40.0701396!4d-75.6724382!16s%2Fg%2F1v16r7pb?entry=ttu&g_ep=EgoyMDI1MDgxOS4wIKXMDSoASAFQAw%3D%3D",,AWAY,https://drive.google.com/file/d/1smNepYlQUN_McnQDHBgzD-mT-KaJI2LB/view?usp=sharing
 American University,https://drive.google.com/thumbnail?id=1dFXKemLQaiLPiviRRBb8Fzt-VPV4Kgj9,2026-02-14,4:00 PM,Hagerstown Ice & Sports Complex,"https://www.google.com/maps/place/Hagerstown+Ice+%26+Sports+Complex/@39.6460215,-77.707814,17z/data=!3m1!4b1!4m6!3m5!1s0x89c9ed2f329d9ded:0x7ba14c7a990d2a84!8m2!3d39.6460174!4d-77.7052337!16s%2Fg%2F1tgz1kkn?entry=ttu&g_ep=EgoyMDI1MDgxOS4wIKXMDSoASAFQAw%3D%3D",Last Home Game,HOME,https://drive.google.com/file/d/1dFXKemLQaiLPiviRRBb8Fzt-VPV4Kgj9/view?usp=sharing
 </script>
+
 <script>
+
+/*allegedly canceled game, However, keeping this here in case It gets rescheduled*/
+
+  /*Susquehanna University,https://drive.google.com/thumbnail?id=1IccPE6kmUkw4RH9zIGWpzKr0wv0cXEqn,2025-10-05,3:45 PM,James R Eister Youth & Community Center,"https://www.google.com/maps/place/James+R.+Eister+Youth+%26+Community+Center/@40.8741327,-76.7835647,16z/data=!3m1!4b1!4m6!3m5!1s0x89cf6aff525f1cc7:0xa448f7c7c7cc9198!8m2!3d40.8741287!4d-76.7809844!16s%2Fg%2F1tjtk7lf?entry=ttu&g_ep=EgoyMDI1MDgxOS4wIKXMDSoASAFQAw%3D%3D",,AWAY,https://drive.google.com/file/d/1IccPE6kmUkw4RH9zIGWpzKr0wv0cXEqn/view?usp=sharing,
+*/
+
 (() => {
   // ====== CONFIG ======
   const SHIP_LOGO_URL = "https://drive.google.com/thumbnail?id=1fnqpx97__9QgqRdS0FBmF4YKkLd1UH4K&sz=w600";
@@ -533,23 +547,35 @@ function fillCommon(card, g, isTournament) {
     }
   }
 
-  // Footer — prefer Result/Score if present; otherwise Special Event
-  const footerText = $('.footer-text', card);
-  if (footerText && !isTournament) {
-    const res = (g['Result'] || '').trim().toUpperCase();   // "W" | "L" | "T"
-    const score = (g['Score']  || '').trim();               // e.g. "7-6"
-    footerText.classList.remove('is-win','is-loss','is-tie');
+  // Results block
+const resultEl = $('.result', card);
+if (resultEl && !isTournament) {
+  const res = (g['Result'] || '').trim().toUpperCase(); // "W" | "L" | "T"
+  const score = (g['Score'] || '').trim();
+  resultEl.classList.remove('is-win','is-loss','is-tie');
 
-    if (res && score) {
-      const label = res === 'W' ? 'W' : res === 'L' ? 'L' : 'T';
-      footerText.textContent = `${label} ${score}`;
-      if (res === 'W') footerText.classList.add('is-win');
-      else if (res === 'L') footerText.classList.add('is-loss');
-      else footerText.classList.add('is-tie');
-    } else {
-      footerText.textContent = g['Special Event?'] || '';
+  if (res && score) {
+    if (res === 'W') {
+      resultEl.textContent = `Win ${score}`;
+      resultEl.classList.add('is-win');
+    } else if (res === 'L') {
+      resultEl.textContent = `Loss ${score}`;
+      resultEl.classList.add('is-loss');
+    } else if (res === 'T') {
+      resultEl.textContent = `Tie ${score}`;
+      resultEl.classList.add('is-tie');
     }
+  } else {
+    resultEl.textContent = ''; // blank if no result yet
   }
+}
+
+// Footer — only for special events (e.g. "First Home Game", "Last Home Game")
+const footerText = $('.footer-text', card);
+if (footerText && !isTournament) {
+  footerText.textContent = g['Special Event?'] || '';
+}
+
 }
 
 
@@ -608,9 +634,8 @@ function fillCommon(card, g, isTournament) {
     if (card) frag.appendChild(card);
   }
   mount.appendChild(frag);
-})();
 
-// compute record from CSV rows that have both Result and Score
+  // compute record from CSV rows that have both Result and Score
 let GP = 0, W = 0, L = 0, T = 0;
 for (const g of data) {
   if ((g['Result'] || '').trim() && (g['Score'] || '').trim()) {
@@ -630,6 +655,9 @@ if (recordGrid) {
     <div><strong>T</strong> ${T}</div>
   `;
 }
+})();
+
+
 </script>
 </body>
 </html>
